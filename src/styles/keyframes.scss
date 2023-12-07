@@ -1,0 +1,25 @@
+@mixin generateTransformSingular($name,$initial:false,$transform,$init,$target){
+    @keyframes #{$name}{
+        @if($initial){
+            from{
+                transform:#{$transform}($init);
+            }
+        }
+        to{
+            transform:#{$transform}($target);
+        }
+    }
+  }
+@mixin changeColor($name,$colors...){
+    $len:length($colors);
+    @keyframes #{$name}{
+        @for $x from 1 through $len{
+            #{math.div(100%,$len)*($x - 1)}{
+                color: nth($colors,$x)
+            }
+        }
+        100%{
+            color:nth($colors,$len);
+        }
+    }
+}

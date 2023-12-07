@@ -1,0 +1,58 @@
+@use 'sass:list';
+@use 'sass:math';
+@import './functions.scss';
+@mixin posSize($position:relative, $width:100%,$height:100%,$offset-hor:left,$offset-ver:top,
+$off-hor-val:0,$off-ver-val:0){
+    position:$position;
+    width:$width;
+    height:$height;
+    #{$offset-hor}:$off-hor-val;
+    #{$offset-ver}:$off-ver-val;
+}
+@mixin toolBar(){
+
+}
+
+@mixin backgroundGradient($type:radial, $position:at center, $colors:(), $offsets:()){
+    background-image:completeGradient($type, $position, generateGradient($colors,$offsets));
+}
+
+@mixin generateStars($children, $color, $target, $initial, $width, $height, $duration, $blur: 0, $spread: 0,$unit: px,$numbers...) {
+  @for $y from 1 through $children {
+    &:nth-child(#{$y}) {
+      $shadow: generateBoxShadow-const-color(nth($numbers, $y), $color, $width, $height, $blur, $spread, $unit);
+      box-shadow: $shadow;
+      @include generateTranslateSingle(translate-star-#{$y}, false, $target, translateX );
+      animation: translate-star-#{$y} $duration*$y linear infinite;
+
+      &::before {
+        box-shadow: $shadow;
+      }
+    }
+  }
+}
+@mixin generateTranslateSingle($name, $initial: false, $target, $type: translateY) {
+  @keyframes #{$name} {
+    @if $initial {
+      from {
+        transform: #{$type}($initial);
+      }
+    }
+
+    to {
+      transform: #{$type}($target);
+    }
+  }
+}
+//unction generateBoxShadow($inset: false, $color: white,$unit: 1px,$rest...)
+@mixin generateSymetricalInset($repeats,$color,$unit, $numbers...) {
+  $temp: ();
+
+  @for $x from 1 through $repeats {
+    $temp: append($temp,(generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1),nth($numbers,2),nth($numbers,3),nth($numbers,4)),
+    generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1)*-1,nth($numbers,2),nth($numbers,3),nth($numbers,4)),
+    generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1),nth($numbers,2)*-1,nth($numbers,3),nth($numbers,4)),
+    generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1)*-1,nth($numbers,2)*-1,nth($numbers,3),nth($numbers,4))),comma );
+  }
+  box-shadow:$temp;
+}

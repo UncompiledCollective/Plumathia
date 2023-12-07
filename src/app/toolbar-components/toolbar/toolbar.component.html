@@ -1,0 +1,9 @@
+<ng-container *ngFor="let x of textArray; index as index">
+  <app-picture-holder *ngIf="sourceArray.numbers.length>=0 && sourceArray.numbers.includes(index)"
+                      className="{{className}}" [theme]="theme" [source]="sourceArray.sources[0]"
+                      >
+  </app-picture-holder>
+  <app-toolbar-box 
+                   [text]="x" className="{{className}}" [theme]="theme">
+  </app-toolbar-box>
+</ng-container>

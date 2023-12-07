@@ -1,0 +1,74 @@
+@use 'sass:math';
+@use 'sass:list';
+@function generateGradient($colors, $offsets) {
+  $colors-len: length($colors);
+  $offsets-len: length($offsets);
+  $result: ();
+
+  @for $x from 1 through $colors-len {
+    $temp: nth($colors,$x);
+
+    @if($x <= $offsets-len) {
+      $temp: append($temp,nth($offsets,$x));
+    }
+
+    $result: append($result,$temp,comma);
+  }
+
+  @return $result;
+}
+@function completeGradient($type:radial,$position:circle at center,$gradient){
+    @return #{$type}-gradient($position, $gradient);
+}
+@function generateBoxShadow($inset: false, $color: white,$unit: 1px,$rest...) {
+  @if($inset) {
+    @return inset nth($rest,1)*$unit nth($rest,2)*$unit nth($rest,3)*$unit nth($rest,4)*$unit $color;
+  }
+  @else {
+    @return nth($rest,1)*$unit nth($rest,2)*$unit nth($rest,3)*$unit nth($rest,4)*$unit $color;
+  }
+}
+@function generateBoxShadow-const-color($number, $color, $width,$height, $blur: 0, $spread: 0,$unit: px) {
+  $list: ();
+
+  @for $x from 1 through $number {
+    $list: append($list, random($width)+$unit random($height)+$unit $blur $spread $color, comma);
+  }
+
+  @return $list;
+}
+@function generateBoxShadowCircleAtTopLeftSquare($number: 100,$color: white,$square-width: 20*14, $radius: 20*14,$offset:40,$unit: 1px,$blur: 2,$spread: 0) { //rest refers to
+  $box: ();
+  $delta: math.div($square-width - $radius * 2,2);
+
+  @for $x from 0 through $number {
+    $xcord: $radius - math.div($x,$number)*2*$radius;
+    $y: math.sqrt( math.pow($radius,2) - math.pow($xcord,2));
+    $isneg: math.random();
+
+    @if ($isneg> 0.5) {
+      $isneg: $isneg - 1;
+    }
+
+    $isneg2: math.random();
+
+    @if($isneg2 > 0.5) {
+      $isneg2: $isneg2 - 1;
+    }
+
+    $xcord: $delta + $radius + $xcord + $offset*$isneg;
+    $y: $y + $offset * $isneg2;
+    $box: append($box, generateBoxShadow(false, $color,$unit, $xcord,$y + $radius + $delta,$blur,$spread),comma);
+    $box: append($box, generateBoxShadow(false, $color,$unit, $xcord,-1* $y + $radius + $delta,$blur,$spread),comma);
+  }
+  @return $box;
+}
+@function generateSymetricalInset($repeats,$color,$unit, $numbers...) {
+  $temp: ();
+
+  @for $x from 1 through $repeats {
+    $temp: append($temp,(generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1),nth($numbers,2),nth($numbers,3),nth($numbers,4)), generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1)*-1,nth($numbers,2),nth($numbers,3),nth($numbers,4)), generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1),nth($numbers,2)*-1,nth($numbers,3),nth($numbers,4)), generateBoxShadow(true, nth($color,$x), $unit, nth($numbers,1)*-1,nth($numbers,2)*-1,nth($numbers,3),nth($numbers,4))),comma );
+  }
+
+  @return $temp;
+}

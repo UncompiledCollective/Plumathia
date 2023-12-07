@@ -1,0 +1,11 @@
+<div [class]="[className,'trick']"></div>
+<div [class]="[className, 'true-wrapper']" >
+  <ng-container *ngFor="let x of textObject;index as index">
+    <app-picture-holder *ngIf="index === imageArray.position && imageArray.source != ''" [source]="imageArray.source"></app-picture-holder>
+    <div *ngIf="exceptionArray.length>0 && exceptionArray.includes(index); else elseblock">
+      <div><span>{{x}}</span></div>
+    </div>
+    <ng-template #elseblock><span>{{x}}</span></ng-template>
+  </ng-container>
+
+</div>

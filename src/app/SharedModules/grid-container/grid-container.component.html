@@ -1,0 +1,6 @@
+<ng-container *ngFor="let x of textArray; index as index">
+  <app-misc-text-field [theme]="theme" [className]="className" [textObject]="x"
+                       [imageArray]="imageArray.length > index && imageArray[index].number == index ? imageArray[index]:blindIdiot[0]"
+                       [exceptionArray]="exceptionArray.length > index && exceptionArray[index].length>0 ? exceptionArray[index] : []"
+                       ></app-misc-text-field>
+</ng-container>

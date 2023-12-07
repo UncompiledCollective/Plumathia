@@ -1,0 +1,15 @@
+:host>div.sky{
+    position:absolute;
+    top:0;left:0;
+    width:0;height:0;
+    border-radius:50%;
+    &>div{
+        position:absolute;
+        border-radius:inherit;
+        &::before{
+            content:'';
+            position:inherit;width:inherit;height:inherit;
+            border-radius:inherit;
+        }
+    }
+}

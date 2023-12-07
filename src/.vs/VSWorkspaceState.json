@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\SharedModules",
+    "\\app\\SharedModules\\misc-text-field",
+    "\\app\\toolbar-components",
+    "\\app\\toolbar-components\\picture-holder",
+    "\\app\\toolbar-components\\toolbar",
+    "\\assets",
+    "\\assets\\images",
+    "\\fonts",
+    "\\styles"
+  ],
+  "SelectedNode": "\\fonts\\CascadiaCodePL-Regular.otf",
+  "PreviewInSolutionExplorer": false
+}
